@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Review System</title>
+    <title>KacchaChittha</title>
     <link rel="stylesheet" href="styles.css">
     <!-- Firebase SDK scripts -->
     <script type="module" src="firebase-config.js"></script>
 </head>
 <body>
     <header>
-        <h1>Service Review System</h1>
+        <h1>KacchaChittha</h1>
         <nav>
             <ul>
                 <li><a href="index.html" class="active">Submit Review</a></li>
                 <li><a href="search.html">Search Reviews</a></li>
+                <li><a href="about.html">About</a></li>
             </ul>
         </nav>
     </header>
@@ -29,6 +30,11 @@
                            placeholder="Enter phone number (e.g., 1234567890)" 
                            pattern="[0-9]{10}">
                     <small>10-digit phone number without spaces or dashes</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="serviceProviderName">Service Provider Name (Optional):</label>
+                    <input type="text" id="serviceProviderName" name="serviceProviderName" placeholder="Enter service provider name">
                 </div>
 
                 <div class="form-group">
@@ -47,18 +53,63 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="rating">Rating:</label>
+                    <label for="qualityRating">Quality of Service:</label>
                     <div class="star-rating">
-                        <input type="radio" id="star5" name="rating" value="5" required>
-                        <label for="star5">★</label>
-                        <input type="radio" id="star4" name="rating" value="4">
-                        <label for="star4">★</label>
-                        <input type="radio" id="star3" name="rating" value="3">
-                        <label for="star3">★</label>
-                        <input type="radio" id="star2" name="rating" value="2">
-                        <label for="star2">★</label>
-                        <input type="radio" id="star1" name="rating" value="1">
-                        <label for="star1">★</label>
+                        <input type="radio" id="quality5" name="qualityRating" value="5" required>
+                        <label for="quality5">★</label>
+                        <input type="radio" id="quality4" name="qualityRating" value="4">
+                        <label for="quality4">★</label>
+                        <input type="radio" id="quality3" name="qualityRating" value="3">
+                        <label for="quality3">★</label>
+                        <input type="radio" id="quality2" name="qualityRating" value="2">
+                        <label for="quality2">★</label>
+                        <input type="radio" id="quality1" name="qualityRating" value="1">
+                        <label for="quality1">★</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="timelinessRating">Timeliness:</label>
+                    <div class="star-rating">
+                        <input type="radio" id="timeliness5" name="timelinessRating" value="5" required>
+                        <label for="timeliness5">★</label>
+                        <input type="radio" id="timeliness4" name="timelinessRating" value="4">
+                        <label for="timeliness4">★</label>
+                        <input type="radio" id="timeliness3" name="timelinessRating" value="3">
+                        <label for="timeliness3">★</label>
+                        <input type="radio" id="timeliness2" name="timelinessRating" value="2">
+                        <label for="timeliness2">★</label>
+                        <input type="radio" id="timeliness1" name="timelinessRating" value="1">
+                        <label for="timeliness1">★</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="professionalismRating">Professionalism:</label>
+                    <div class="star-rating">
+                        <input type="radio" id="professionalism5" name="professionalismRating" value="5" required>
+                        <label for="professionalism5">★</label>
+                        <input type="radio" id="professionalism4" name="professionalismRating" value="4">
+                        <label for="professionalism4">★</label>
+                        <input type="radio" id="professionalism3" name="professionalismRating" value="3">
+                        <label for="professionalism3">★</label>
+                        <input type="radio" id="professionalism2" name="professionalismRating" value="2">
+                        <label for="professionalism2">★</label>
+                        <input type="radio" id="professionalism1" name="professionalismRating" value="1">
+                        <label for="professionalism1">★</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="pricingRating">Pricing Transparency:</label>
+                    <div class="star-rating">
+                        <input type="radio" id="pricing5" name="pricingRating" value="5" required tabindex="0">
+                        <label for="pricing5">★</label>
+                        <input type="radio" id="pricing4" name="pricingRating" value="4" tabindex="0">
+                        <label for="pricing4">★</label>
+                        <input type="radio" id="pricing3" name="pricingRating" value="3" tabindex="0">
+                        <label for="pricing3">★</label>
+                        <input type="radio" id="pricing2" name="pricingRating" value="2" tabindex="0">
+                        <label for="pricing2">★</label>
+                        <input type="radio" id="pricing1" name="pricingRating" value="1" tabindex="0">
+                        <label for="pricing1">★</label>
                     </div>
                 </div>
 
@@ -80,7 +131,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2023 Service Review System. All rights reserved.</p>
+        <p>&copy; 2025 KacchaChittha. All rights reserved.</p>
     </footer>
 
     <div id="notification" class="notification"></div>

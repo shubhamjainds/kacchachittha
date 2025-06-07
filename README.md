@@ -1,4 +1,4 @@
-# Service Review System with Firebase
+# KacchaChittha with Firebase
 
 ## Overview
 This is a simple web application that allows users to submit and search for reviews of service providers. The application uses Firebase Firestore for data storage, allowing reviews to be accessed from any device with an internet connection.
@@ -16,7 +16,7 @@ This is a simple web application that allows users to submit and search for revi
 1. Go to the [Firebase Console](https://console.firebase.google.com/)
 2. Click "Add project" and follow the steps to create a new project
 3. Once your project is created, click on "Web" (</>) to add a web app to your project
-4. Register your app with a nickname (e.g., "Service Review System")
+4. Register your app with a nickname (e.g., "KacchaChittha")
 5. Copy the Firebase configuration object that looks like this:
 
 ```javascript

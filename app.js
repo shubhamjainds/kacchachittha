@@ -15,9 +15,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get form values
         const serviceProvider = document.getElementById('serviceProvider').value.trim();
         const serviceType = document.getElementById('serviceType').value;
-        const rating = document.querySelector('input[name="rating"]:checked').value;
+        const serviceProviderName = document.getElementById('serviceProviderName').value.trim() || 'Anonymous';
         const reviewText = document.getElementById('reviewText').value.trim();
         const reviewerName = document.getElementById('reviewerName').value.trim() || 'Anonymous';
+        
+        
+        
         
         // Validate phone number format (10 digits)
         if (!validatePhoneNumber(serviceProvider)) {
@@ -25,11 +28,30 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        const qualityRatingElement = document.querySelector('input[name="qualityRating"]:checked');
+        const timelinessRatingElement = document.querySelector('input[name="timelinessRating"]:checked');
+        const professionalismRatingElement = document.querySelector('input[name="professionalismRating"]:checked');
+        const pricingRatingElement = document.querySelector('input[name="pricingRating"]:checked');
+        
+        if (!qualityRatingElement || !timelinessRatingElement || !professionalismRatingElement || !pricingRatingElement) {
+            showNotification('Please select a rating for all categories', 'error');
+            return;
+        }
+        
+        const qualityRating = qualityRatingElement.value;
+        const timelinessRating = timelinessRatingElement.value;
+        const professionalismRating = professionalismRatingElement.value;
+        const pricingRating = pricingRatingElement.value;
+        
         // Create review object
         const review = {
             serviceProvider: serviceProvider,
+            serviceProviderName: serviceProviderName,
             serviceType: serviceType,
-            rating: parseInt(rating),
+            qualityRating: parseInt(qualityRating),
+            timelinessRating: parseInt(timelinessRating),
+            professionalismRating: parseInt(professionalismRating),
+            pricingRating: parseInt(pricingRating),
             reviewText: reviewText,
             reviewerName: reviewerName,
             date: new Date().toISOString()
