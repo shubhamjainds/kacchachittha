@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Reviews - Service Review System</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Firebase SDK scripts -->
+    <script type="module" src="firebase-config.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Service Review System</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Submit Review</a></li>
+                <li><a href="search.html" class="active">Search Reviews</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="search-section">
+            <h2>Search Reviews</h2>
+            <div class="search-form">
+                <div class="form-group">
+                    <label for="searchPhone">Service Provider Phone Number:</label>
+                    <input type="tel" id="searchPhone" name="searchPhone" 
+                           placeholder="Enter phone number (e.g., 1234567890)" 
+                           pattern="[0-9]{10}">
+                    <small>10-digit phone number without spaces or dashes</small>
+                </div>
+                <div class="form-group">
+                    <label for="filterServiceType">Filter by Service Type (Optional):</label>
+                    <select id="filterServiceType" name="filterServiceType">
+                        <option value="">All Service Types</option>
+                        <option value="plumbing">Plumbing</option>
+                        <option value="electrical">Electrical</option>
+                        <option value="carpentry">Carpentry</option>
+                        <option value="cleaning">Cleaning</option>
+                        <option value="landscaping">Landscaping</option>
+                        <option value="painting">Painting</option>
+                        <option value="roofing">Roofing</option>
+                        <option value="hvac">HVAC</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <button id="searchBtn" class="btn-search">Search</button>
+            </div>
+
+            <div id="searchResults" class="search-results">
+                <!-- Results will be displayed here -->
+                <div class="no-results">Enter a service provider's phone number to see their reviews</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Service Review System. All rights reserved.</p>
+    </footer>
+
+    <script type="module" src="search.js"></script>
+</body>
+</html>
