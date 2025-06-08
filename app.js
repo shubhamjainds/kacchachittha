@@ -30,15 +30,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get form values
         const serviceProvider = document.getElementById('serviceProvider').value.trim();
         const serviceType = document.getElementById('serviceType').value;
-<<<<<<< HEAD
         const customServiceName = document.getElementById('customServiceName').value.trim();
-=======
->>>>>>> fa4cf6db59eacc7f611c1909ec5ebab8dc193a09
         const serviceProviderName = document.getElementById('serviceProviderName').value.trim() || 'Anonymous';
         const reviewText = document.getElementById('reviewText').value.trim();
         const reviewerName = document.getElementById('reviewerName').value.trim() || 'Anonymous';
         
-<<<<<<< HEAD
         // Determine final service type
         const finalServiceType = serviceType === 'other' ? customServiceName : serviceType;
         
@@ -48,8 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-=======
->>>>>>> fa4cf6db59eacc7f611c1909ec5ebab8dc193a09
         
         
         
@@ -78,11 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const review = {
             serviceProvider: serviceProvider,
             serviceProviderName: serviceProviderName,
-<<<<<<< HEAD
             serviceType: finalServiceType,
-=======
-            serviceType: serviceType,
->>>>>>> fa4cf6db59eacc7f611c1909ec5ebab8dc193a09
             qualityRating: parseInt(qualityRating),
             timelinessRating: parseInt(timelinessRating),
             professionalismRating: parseInt(professionalismRating),
