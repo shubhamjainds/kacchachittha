@@ -129,7 +129,7 @@ async function runSetupTests() {
         console.log('Please create the required index and try again.');
     } else {
         console.log('\n🎉 All tests passed! Your Firebase setup is complete.');
-        console.log('You can now use the Service Review System with Firebase.');
+        console.log('You can now use the KacchaChittha with Firebase.');
     }
 }
 

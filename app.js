@@ -7,6 +7,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get the form element
     const reviewForm = document.getElementById('reviewForm');
     const notification = document.getElementById('notification');
+    const serviceTypeSelect = document.getElementById('serviceType');
+    const customServiceGroup = document.getElementById('customServiceGroup');
+    const customServiceInput = document.getElementById('customServiceName');
+
+    // Handle service type change
+    serviceTypeSelect.addEventListener('change', function() {
+        if (this.value === 'other') {
+            customServiceGroup.style.display = 'block';
+            customServiceInput.required = true;
+        } else {
+            customServiceGroup.style.display = 'none';
+            customServiceInput.required = false;
+            customServiceInput.value = '';
+        }
+    });
 
     // Add submit event listener to the form
     reviewForm.addEventListener('submit', async function(e) {
@@ -15,9 +30,22 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get form values
         const serviceProvider = document.getElementById('serviceProvider').value.trim();
         const serviceType = document.getElementById('serviceType').value;
-        const rating = document.querySelector('input[name="rating"]:checked').value;
+        const customServiceName = document.getElementById('customServiceName').value.trim();
+        const serviceProviderName = document.getElementById('serviceProviderName').value.trim() || 'Anonymous';
         const reviewText = document.getElementById('reviewText').value.trim();
         const reviewerName = document.getElementById('reviewerName').value.trim() || 'Anonymous';
+        
+        // Determine final service type
+        const finalServiceType = serviceType === 'other' ? customServiceName : serviceType;
+        
+        // Validate custom service name if 'Other' is selected
+        if (serviceType === 'other' && !customServiceName) {
+            showNotification('Please enter a custom service name', 'error');
+            return;
+        }
+        
+        
+        
         
         // Validate phone number format (10 digits)
         if (!validatePhoneNumber(serviceProvider)) {
@@ -25,11 +53,30 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        const qualityRatingElement = document.querySelector('input[name="qualityRating"]:checked');
+        const timelinessRatingElement = document.querySelector('input[name="timelinessRating"]:checked');
+        const professionalismRatingElement = document.querySelector('input[name="professionalismRating"]:checked');
+        const pricingRatingElement = document.querySelector('input[name="pricingRating"]:checked');
+        
+        if (!qualityRatingElement || !timelinessRatingElement || !professionalismRatingElement || !pricingRatingElement) {
+            showNotification('Please select a rating for all categories', 'error');
+            return;
+        }
+        
+        const qualityRating = qualityRatingElement.value;
+        const timelinessRating = timelinessRatingElement.value;
+        const professionalismRating = professionalismRatingElement.value;
+        const pricingRating = pricingRatingElement.value;
+        
         // Create review object
         const review = {
             serviceProvider: serviceProvider,
-            serviceType: serviceType,
-            rating: parseInt(rating),
+            serviceProviderName: serviceProviderName,
+            serviceType: finalServiceType,
+            qualityRating: parseInt(qualityRating),
+            timelinessRating: parseInt(timelinessRating),
+            professionalismRating: parseInt(professionalismRating),
+            pricingRating: parseInt(pricingRating),
             reviewText: reviewText,
             reviewerName: reviewerName,
             date: new Date().toISOString()

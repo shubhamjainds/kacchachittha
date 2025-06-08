@@ -131,7 +131,29 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const reviewRating = document.createElement('div');
             reviewRating.className = 'review-rating';
-            reviewRating.textContent = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+            
+            // Display individual ratings for each category
+            const ratingsHTML = `
+                <div class="individual-ratings">
+                    <div class="rating-item">
+                        <span class="rating-label">Quality:</span>
+                        <span class="stars">${'★'.repeat(review.qualityRating || 0)}${'☆'.repeat(5 - (review.qualityRating || 0))}</span>
+                    </div>
+                    <div class="rating-item">
+                        <span class="rating-label">Timeliness:</span>
+                        <span class="stars">${'★'.repeat(review.timelinessRating || 0)}${'☆'.repeat(5 - (review.timelinessRating || 0))}</span>
+                    </div>
+                    <div class="rating-item">
+                        <span class="rating-label">Professionalism:</span>
+                        <span class="stars">${'★'.repeat(review.professionalismRating || 0)}${'☆'.repeat(5 - (review.professionalismRating || 0))}</span>
+                    </div>
+                    <div class="rating-item">
+                        <span class="rating-label">Pricing:</span>
+                        <span class="stars">${'★'.repeat(review.pricingRating || 0)}${'☆'.repeat(5 - (review.pricingRating || 0))}</span>
+                    </div>
+                </div>
+            `;
+            reviewRating.innerHTML = ratingsHTML;
             
             reviewHeader.appendChild(reviewDate);
             reviewHeader.appendChild(reviewRating);
@@ -175,9 +197,63 @@ document.addEventListener('DOMContentLoaded', function() {
     function calculateAverageRating(reviews) {
         if (reviews.length === 0) return 0;
         
-        const sum = reviews.reduce((total, review) => total + review.rating, 0);
+        const sum = reviews.reduce((total, review) => {
+            const totalRating = review.qualityRating + review.timelinessRating + review.professionalismRating + review.pricingRating;
+            return total + (totalRating / 4);
+        }, 0);
         return sum / reviews.length;
     }
+    
+    // Update reviewRating to display individual ratings
+    reviews.forEach(review => {
+        const reviewCard = document.createElement('div');
+        reviewCard.className = 'review-card';
+        
+        const reviewHeader = document.createElement('div');
+        reviewHeader.className = 'review-header';
+        
+        const reviewDate = document.createElement('div');
+        reviewDate.className = 'review-date';
+        reviewDate.textContent = formatDate(review.date);
+        
+        const reviewRating = document.createElement('div');
+        reviewRating.className = 'review-rating';
+        reviewRating.innerHTML = `Quality: ${review.qualityRating} ★<br>
+                                 Timeliness: ${review.timelinessRating} ★<br>
+                                 Professionalism: ${review.professionalismRating} ★<br>
+                                 Pricing: ${review.pricingRating} ★`;
+        
+        reviewHeader.appendChild(reviewDate);
+        reviewHeader.appendChild(reviewRating);
+        
+        const reviewContent = document.createElement('div');
+        reviewContent.className = 'review-content';
+        reviewContent.textContent = review.reviewText;
+        
+        const reviewMeta = document.createElement('div');
+        reviewMeta.className = 'review-meta';
+        
+        // Add service type if available (for backward compatibility with older reviews)
+        if (review.serviceType) {
+            const serviceType = document.createElement('div');
+            serviceType.className = 'service-type';
+            serviceType.innerHTML = `<strong>Service Type:</strong> ${formatServiceType(review.serviceType)}`;
+            reviewMeta.appendChild(serviceType);
+        }
+        
+        const reviewAuthor = document.createElement('div');
+        reviewAuthor.className = 'review-author';
+        reviewAuthor.textContent = `- ${review.reviewerName}`;
+        reviewMeta.appendChild(reviewAuthor);
+        
+        reviewCard.appendChild(reviewHeader);
+        reviewCard.appendChild(reviewContent);
+        reviewCard.appendChild(reviewMeta);
+        
+        reviewsContainer.appendChild(reviewCard);
+    });
+    
+    searchResults.appendChild(reviewsContainer);
     
     // Function to format phone number as (XXX) XXX-XXXX
     function formatPhoneNumber(phoneNumber) {

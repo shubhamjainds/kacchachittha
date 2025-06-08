@@ -205,6 +205,48 @@ button:hover {
     font-size: 1.2rem;
 }
 
+/* Individual ratings display */
+.individual-ratings {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.rating-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.rating-label {
+    font-weight: 500;
+    color: #333;
+    font-size: 0.9rem;
+    min-width: 80px;
+}
+
+.stars {
+    color: #ffb700;
+    font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+    .individual-ratings {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+    }
+    
+    .rating-label {
+        min-width: 70px;
+        font-size: 0.8rem;
+    }
+    
+    .stars {
+        font-size: 0.9rem;
+    }
+}
+
 /* Review Meta Information */
 .review-meta {
     margin-top: 0.5rem;
