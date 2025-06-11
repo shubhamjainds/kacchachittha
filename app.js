@@ -1,15 +1,18 @@
 // Main app.js for handling review submissions
 
 // Import Firebase modules from our config file
-import { db, collection, addDoc } from './firebase-config.js';
+import { db, collection, addDoc, getDocs } from './firebase-config.js';
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     // Get the form element
     const reviewForm = document.getElementById('reviewForm');
     const notification = document.getElementById('notification');
     const serviceTypeSelect = document.getElementById('serviceType');
     const customServiceGroup = document.getElementById('customServiceGroup');
     const customServiceInput = document.getElementById('customServiceName');
+
+    // Populate service types dropdown
+    await populateServiceTypes();
 
     // Handle service type change
     serviceTypeSelect.addEventListener('change', function() {
@@ -23,6 +26,45 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Function to fetch and populate service types
+    async function populateServiceTypes() {
+        try {
+            const reviewsCollectionRef = collection(db, "reviews");
+            const querySnapshot = await getDocs(reviewsCollectionRef);
+            
+            // Create a Set to store unique service types
+            const serviceTypes = new Set();
+            
+            // Collect all unique service types
+            querySnapshot.forEach((doc) => {
+                const serviceType = doc.data().serviceType;
+                if (serviceType && serviceType.toLowerCase() !== 'other') {
+                    serviceTypes.add(serviceType);
+                }
+            });
+            
+            // Clear existing options except the default option
+            serviceTypeSelect.innerHTML = '<option value="" disabled selected>Select service type</option>';
+            
+            // Add service types to dropdown
+            Array.from(serviceTypes).sort().forEach(type => {
+                const option = document.createElement('option');
+                option.value = type.toLowerCase();
+                option.textContent = type;
+                serviceTypeSelect.appendChild(option);
+            });
+            
+            // Add the "Other" option at the end
+            const otherOption = document.createElement('option');
+            otherOption.value = 'other';
+            otherOption.textContent = 'Other';
+            serviceTypeSelect.appendChild(otherOption);
+        } catch (error) {
+            console.error("Error fetching service types: ", error);
+            showNotification('Error loading service types', 'error');
+        }
+    }
+
     // Add submit event listener to the form
     reviewForm.addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -34,7 +76,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const serviceProviderName = document.getElementById('serviceProviderName').value.trim() || 'Anonymous';
         const reviewText = document.getElementById('reviewText').value.trim();
         const reviewerName = document.getElementById('reviewerName').value.trim() || 'Anonymous';
-        
+        const pincode = document.getElementById('pincode').value.trim();
+
         // Determine final service type
         const finalServiceType = serviceType === 'other' ? customServiceName : serviceType;
         
@@ -72,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const review = {
             serviceProvider: serviceProvider,
             serviceProviderName: serviceProviderName,
+            pincode: pincode,
             serviceType: finalServiceType,
             qualityRating: parseInt(qualityRating),
             timelinessRating: parseInt(timelinessRating),
@@ -103,6 +147,12 @@ document.addEventListener('DOMContentLoaded', function() {
         return phoneRegex.test(phone);
     }
     
+    // Add the validation function
+    function validatePincode(pincode) {
+        const pincodeRegex = /^\d{6}$/;
+        return pincodeRegex.test(pincode);
+    }
+
     // Function to save review to Firestore
     async function saveReviewToFirestore(review) {
         try {
@@ -122,11 +172,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to show notification
     function showNotification(message, type) {
         notification.textContent = message;
-        notification.className = 'notification ' + type;
+        notification.className = `notification ${type}`;
+        notification.style.display = 'block';
         
-        // Hide notification after 3 seconds
-        setTimeout(function() {
-            notification.className = 'notification';
+        setTimeout(() => {
+            notification.style.display = 'none';
         }, 3000);
     }
 });

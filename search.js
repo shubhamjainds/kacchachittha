@@ -3,12 +3,15 @@
 // Import Firebase modules from our config file
 import { db, collection, query, where, getDocs, orderBy } from './firebase-config.js';
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     // Get elements
     const searchBtn = document.getElementById('searchBtn');
     const searchPhone = document.getElementById('searchPhone');
     const filterServiceType = document.getElementById('filterServiceType');
     const searchResults = document.getElementById('searchResults');
+    
+    // Populate service types dropdown
+    await populateServiceTypes();
     
     // Add click event listener to search button
     searchBtn.addEventListener('click', async function() {
@@ -38,6 +41,38 @@ document.addEventListener('DOMContentLoaded', function() {
     function validatePhoneNumber(phone) {
         const phoneRegex = /^\d{10}$/;
         return phoneRegex.test(phone);
+    }
+
+    // Function to fetch and populate service types
+    async function populateServiceTypes() {
+        try {
+            const reviewsCollectionRef = collection(db, "reviews");
+            const querySnapshot = await getDocs(reviewsCollectionRef);
+            
+            // Create a Set to store unique service types
+            const serviceTypes = new Set();
+            
+            // Collect all unique service types
+            querySnapshot.forEach((doc) => {
+                const serviceType = doc.data().serviceType;
+                if (serviceType) {
+                    serviceTypes.add(serviceType);
+                }
+            });
+            
+            // Clear existing options except the "All Service Types" option
+            filterServiceType.innerHTML = '<option value="">All Service Types</option>';
+            
+            // Add service types to dropdown
+            Array.from(serviceTypes).sort().forEach(type => {
+                const option = document.createElement('option');
+                option.value = type.toLowerCase();
+                option.textContent = type;
+                filterServiceType.appendChild(option);
+            });
+        } catch (error) {
+            console.error("Error fetching service types: ", error);
+        }
     }
     
     // Function to search for reviews using Firestore
@@ -172,6 +207,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 serviceType.innerHTML = `<strong>Service Type:</strong> ${formatServiceType(review.serviceType)}`;
                 reviewMeta.appendChild(serviceType);
             }
+
+            // Add service provider name if available
+            if (review.serviceProviderName) {
+                const providerName = document.createElement('div');
+                providerName.className = 'provider-name';
+                providerName.innerHTML = `<strong>Service Provider:</strong> ${review.serviceProviderName}`;
+                reviewMeta.appendChild(providerName);
+            }
             
             const reviewAuthor = document.createElement('div');
             reviewAuthor.className = 'review-author';
@@ -257,7 +300,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Function to format phone number as (XXX) XXX-XXXX
     function formatPhoneNumber(phoneNumber) {
-        return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6)}`;
+        return `${phoneNumber.slice(0, 5)} ${phoneNumber.slice(5)}`;
     }
     
     // Function to format date

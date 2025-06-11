@@ -22,7 +22,7 @@
 
     <main>
         <section class="review-form">
-            <h2>Submit Your Review</h2>
+            <h2>Write the KacchaChittha</h2>
             <form id="reviewForm">
                 <div class="form-group">
                     <label for="serviceProvider">Service Provider Phone Number:</label>
@@ -30,6 +30,15 @@
                            placeholder="Enter phone number (e.g., 1234567890)" 
                            pattern="[0-9]{10}">
                     <small>10-digit phone number without spaces or dashes</small>
+                </div>
+
+                <!-- Add the new pincode field here -->
+                <div class="form-group">
+                    <label for="pincode">Service Area Pincode:</label>
+                    <input type="text" id="pincode" name="pincode" required
+                        placeholder="Enter pincode (e.g., 110001)" 
+                        pattern="[0-9]{6}">
+                    <small>6-digit pincode</small>
                 </div>
 
                 <div class="form-group">
@@ -41,15 +50,6 @@
                     <label for="serviceType">Service Type:</label>
                     <select id="serviceType" name="serviceType" required>
                         <option value="" disabled selected>Select service type</option>
-                        <option value="plumbing">Plumbing</option>
-                        <option value="electrical">Electrical</option>
-                        <option value="carpentry">Carpentry</option>
-                        <option value="cleaning">Cleaning</option>
-                        <option value="landscaping">Landscaping</option>
-                        <option value="painting">Painting</option>
-                        <option value="roofing">Roofing</option>
-                        <option value="hvac">HVAC</option>
-                        <option value="other">Other</option>
                     </select>
                 </div>
 
@@ -103,43 +103,41 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="pricingRating">Pricing Transparency:</label>
+                    <label for="pricingRating">Pricing:</label>
                     <div class="star-rating">
-                        <input type="radio" id="pricing5" name="pricingRating" value="5" required tabindex="0">
+                        <input type="radio" id="pricing5" name="pricingRating" value="5" required>
                         <label for="pricing5">★</label>
-                        <input type="radio" id="pricing4" name="pricingRating" value="4" tabindex="0">
+                        <input type="radio" id="pricing4" name="pricingRating" value="4">
                         <label for="pricing4">★</label>
-                        <input type="radio" id="pricing3" name="pricingRating" value="3" tabindex="0">
+                        <input type="radio" id="pricing3" name="pricingRating" value="3">
                         <label for="pricing3">★</label>
-                        <input type="radio" id="pricing2" name="pricingRating" value="2" tabindex="0">
+                        <input type="radio" id="pricing2" name="pricingRating" value="2">
                         <label for="pricing2">★</label>
-                        <input type="radio" id="pricing1" name="pricingRating" value="1" tabindex="0">
+                        <input type="radio" id="pricing1" name="pricingRating" value="1">
                         <label for="pricing1">★</label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="reviewText">Your Review:</label>
-                    <textarea id="reviewText" name="reviewText" rows="5" required 
-                              placeholder="Please share your experience with this service provider"></textarea>
+                    <label for="reviewText">Review Comments:</label>
+                    <textarea id="reviewText" name="reviewText" rows="4" placeholder="Share your experience..."></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="reviewerName">Your Name (Optional):</label>
-                    <input type="text" id="reviewerName" name="reviewerName" 
-                           placeholder="Enter your name">
+                    <input type="text" id="reviewerName" name="reviewerName" placeholder="Enter your name or leave anonymous">
                 </div>
 
-                <button type="submit" class="btn-submit">Submit Review</button>
+                <button type="submit" class="btn-submit">Add to the KacchaChittha</button>
             </form>
+
+            <div id="notification" class="notification" style="display: none;"></div>
         </section>
     </main>
 
     <footer>
         <p>&copy; 2025 KacchaChittha. All rights reserved.</p>
     </footer>
-
-    <div id="notification" class="notification"></div>
 
     <script type="module" src="app.js"></script>
 </body>

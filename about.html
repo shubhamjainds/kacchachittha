@@ -20,16 +20,34 @@
 
     <main>
         <section class="about">
-            <h2>Problem Statement</h2>
+            <h2>Mission</h2>
+            <p>Our mission is to bring transparency and accountability to the informal service sector by building a simple, accessible platform where anyone can review service providers using just a phone number. We aim to empower individuals to make informed decisions, reward trustworthy professionals, and protect communities from repeated poor service.</p>
+            <h2>Problem</h2>
             <p>In many cases, people rely on service providers from the unorganized sector—such as electricians, plumbers, and carpenters. These providers often lack an online presence, making it difficult for customers to share their service experiences. When poor service or unprofessional behavior occurs, there's no public feedback mechanism to hold them accountable. As a result, such providers may continue offering subpar service without fear of consequences.</p>
-            <p> </p>
-            <h2>Proposed Solution</h2>
+            <h2>Solution</h2>
             <p>This platform aims to bridge that gap by allowing users to review any service provider using their contact number. It will bring visibility to service providers who currently operate offline and enable customers to share both positive and negative experiences, including instances of fraud or misconduct. This transparency will promote better service standards and help others make informed decisions.</p>
+            <h2>Feedback</h2>
+            <p>We value your feedback! Please help us improve KacchaChittha by filling out this short survey:</p>
+            
+        </section>
+        <section class="contact-us">
+            <h2>Write to Us</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="message">Your Message:</label>
+                    <textarea id="message" name="message" rows="4" required 
+                            placeholder="Share your thoughts, suggestions, or concerns"></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Send Message</button>
+            </form>
+            <div id="messageNotification" class="notification" style="display: none;"></div>
         </section>
     </main>
 
     <footer>
         <p>&copy; 2025 KacchaChittha. All rights reserved.</p>
     </footer>
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="contact.js"></script>
 </body>
 </html>
