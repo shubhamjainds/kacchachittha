@@ -414,3 +414,15 @@ footer {
         margin-bottom: 1rem;
     }
 }
+.review-label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.review-text {
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
