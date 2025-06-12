@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             // Add service types to dropdown
             Array.from(serviceTypes).sort().forEach(type => {
                 const option = document.createElement('option');
-                option.value = type.toLowerCase();
+                option.value = type;
                 option.textContent = type;
                 filterServiceType.appendChild(option);
             });
@@ -78,42 +78,22 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Function to search for reviews using Firestore
     async function searchReviews(phoneNumber, serviceTypeFilter = '') {
         try {
-            // Reference to the reviews collection
-            const reviewsCollectionRef = collection(db, "reviews");
+            let q = query(collection(db, "reviews"), where("serviceProvider", "==", phoneNumber));
             
-            // Create a query based on the phone number
-            let reviewQuery;
-            
-            if (serviceTypeFilter) {
-                // If service type filter is provided, add it to the query
-                reviewQuery = query(
-                    reviewsCollectionRef, 
+            // If service type filter is applied and it's not "all"
+            if (serviceTypeFilter && serviceTypeFilter.toLowerCase() !== 'all') {
+                    
+                q = query(
+                    collection(db, "reviews"), 
                     where("serviceProvider", "==", phoneNumber),
-                    where("serviceType", "==", serviceTypeFilter),
-                    //orderBy("date", "desc")
-                );
-            } else {
-                // Otherwise, just query by phone number
-                reviewQuery = query(
-                    reviewsCollectionRef, 
-                    where("serviceProvider", "==", phoneNumber),
-                    orderBy("date", "desc")
+                    where("serviceType", "==", serviceTypeFilter)
                 );
             }
-            
-            // Execute the query
-            const querySnapshot = await getDocs(reviewQuery);
-            
-            // Convert the query snapshot to an array of review objects
-            const reviews = [];
-            querySnapshot.forEach((doc) => {
-                // Add the document ID to the review object
-                reviews.push({ id: doc.id, ...doc.data() });
-            });
-            
-            return reviews;
+
+            const querySnapshot = await getDocs(q);
+            return querySnapshot.docs.map(doc => doc.data());
         } catch (error) {
-            console.error("Error querying reviews: ", error);
+            console.error("Error searching reviews: ", error);
             throw error;
         }
     }

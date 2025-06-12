@@ -79,10 +79,12 @@ document.addEventListener('DOMContentLoaded', async function() {
         const pincode = document.getElementById('pincode').value.trim();
 
         // Determine final service type
-        const finalServiceType = serviceType === 'other' ? customServiceName : serviceType;
+        const finalServiceType = serviceType === 'other' 
+        ? formatToTitleCase(customServiceName)
+        : serviceType;
         
         // Validate custom service name if 'Other' is selected
-        if (serviceType === 'other' && !customServiceName) {
+        if (serviceType === 'other' && !customServiceName.trim()) {
             showNotification('Please enter a custom service name', 'error');
             return;
         }
@@ -178,5 +180,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         setTimeout(() => {
             notification.style.display = 'none';
         }, 3000);
+    }
+    function formatToTitleCase(str) {
+        return str
+            .trim() // Remove leading/trailing spaces
+            .toLowerCase()
+            .split(' ')
+            .map(word => word ? word.charAt(0).toUpperCase() + word.slice(1) : '')
+            .join(' ');
     }
 });
